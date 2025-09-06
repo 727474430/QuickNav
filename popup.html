@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>企业内部业务系统快速访问</title>
+  <meta charset="UTF-8">
+  <style>
+    :root {
+      --primary-color: #4285f4;
+      --background-color: #ffffff;
+      --text-color: #202124;
+      --border-color: #dadce0;
+      --hover-color: #f1f3f4;
+      --selected-color: #e8f0fe;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+    body, html {
+      width: 100%;
+      height: 500px;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+    #container {
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+    }
+    #search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    #search-type {
+      position: absolute;
+      left: 10px;
+      top: 42%;
+      transform: translateY(-50%);
+      width: 60px;
+      padding: 5px;
+      font-size: 14px;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      z-index: 2;
+    }
+    #search {
+      width: 100%;
+      padding: 10px 10px 10px 80px; /* 增加左侧padding以容纳下拉框 */
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      font-size: 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 3px var(--shadow-color);
+    }
+
+    #search:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+
+    #search-icon {
+      position: absolute;
+      right: 12px;
+      top: 40%;
+      transform: translateY(-50%);
+      color: #5f6368;
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+    }
+
+    #results {
+      overflow-y: hidden;
+      flex-grow: 1;
+      max-height: calc(100% - 60px); /* 减去搜索框和padding的高度 */
+    }
+    .result-item {
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .result-item:not(:last-child) {
+      border-bottom: 1px solid #eee;
+    }
+    .result-item:hover {
+      background-color: #f5f5f5;
+    }
+    .result-item.selected {
+      background-color: #e0e0e0;
+      border-left: 4px solid #4285f4;
+    }
+
+    .result-item .enter-hint {
+      float: right;
+      color: #888;
+      font-size: 0.9em;
+    }
+
+    .result-item .delete-icon {
+      float: right;
+      margin-right: 10px;
+      color: #dc3545;
+      font-size: 0.9em;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .result-item .delete-icon:hover {
+      opacity: 1;
+    }
+
+    .delete-confirm {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      z-index: 10000;
+      text-align: center;
+    }
+
+    .delete-confirm .buttons {
+      margin-top: 15px;
+    }
+
+    .delete-confirm button {
+      margin: 0 5px;
+      padding: 5px 15px;
+    }
+
+    .delete-confirm .cancel {
+      background-color: #6c757d;
+    }
+
+    .delete-confirm .confirm {
+      background-color: #dc3545;
+    }
+
+    #settings-button {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      width: 20px;
+      height: 20px;
+      z-index: 1; /* 确保设置按钮在计数信息之上 */
+    }
+
+    #settings-button img {
+      width: 100%;
+      height: 100%;
+    }
+
+    #keyboard-button {
+      position: absolute;
+      bottom: 10px;
+      right: 40px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      width: 20px;
+      height: 20px;
+      z-index: 1;
+    }
+
+    #keyboard-button img {
+      width: 100%;
+      height: 100%;
+    }
+
+    #add-system-button {
+      position: absolute;
+      bottom: 10px;
+      right: 70px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      width: 20px;
+      height: 20px;
+      z-index: 1;
+    }
+
+    #add-system-button img {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="search-container">
+      <select id="search-type">
+        <option value="system">系统</option>
+        <option value="bookmark">书签</option>
+        <option value="tab">标签</option>  <!-- 新增标签选项 -->
+        <option value="history">历史</option>  <!-- 新增历史选项 -->
+      </select>
+      <input type="text" id="search" placeholder="搜索业务系统、书签或标签...">
+      <img id="search-icon" src="images/search.png" alt="搜索">
+    </div>
+    <div id="results"></div>
+  </div>
+  <button id="add-system-button" title="添加当前网站">
+    <img src="images/add.png" alt="添加当前网站">
+  </button>
+  <button id="keyboard-button" title="快捷键设置">
+    <img src="images/keyboard.png" alt="快捷键设置">
+  </button>
+  <button id="settings-button" title="设置">
+    <img src="images/setting.png" alt="设置">
+  </button>
+  <script src="searchStats.js"></script>
+  <script src="popup.js"></script>
+  <script src="systemsManager.js"></script>
+</body>
+</html>

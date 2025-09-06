@@ -1,0 +1,54 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* 背景半透明 */
+}
+
+#container {
+  width: 340px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 15px; /* 增加弧度 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+#search {
+  width: 90%; /* 占容器 100% 宽度 */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd; /* 边框颜色变浅 */
+  border-radius: 5px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 10px; /* 距离顶部 10 像素 */
+}
+
+/* 调整 placeholder 字体大小 */
+#search::placeholder {
+  font-size: 16px; /* 与系统名称字体大小一致 */
+}
+
+#results {
+  margin-top: 10px;
+  text-align: left;
+  width: 100%; /* 使搜索结果与搜索框对齐 */
+}
+
+#results div {
+  padding: 2px;
+  margin-left: 1px;
+}
+
+#results div:hover {
+  background-color: #f1f1f1;
+}
+
+.result-item.selected {
+  background-color: #e0e0e0;
+}

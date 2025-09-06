@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "sys-to",
+  "version": "1.0",
+  "description": "快速访问企业内部业务系统",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "bookmarks",
+    "history",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["popup.html"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "images/system.png",
+      "48": "images/system.png",
+      "128": "images/system.png"
+    }
+  },
+  "commands": {
+    "toggle-search": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "Command+Shift+F"
+      },
+      "description": "打开搜索弹窗"
+    }
+  }
+}
