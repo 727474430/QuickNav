@@ -111,27 +111,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const endIndex = startIndex + itemsPerPage;
     const displayedResults = filteredResults.slice(startIndex, endIndex);
     resultsDiv.innerHTML = displayedResults.map((result, index) => {
+      const numberKey = index + 1;
+      const circledNumber = ['①', '②', '③', '④', '⑤'][index] || numberKey;
       if (searchType.value === 'system') {
         return `<div class="result-item ${index === selectedIndex ? 'selected' : ''}" data-url="${result.address}" data-index="${index}">
           <div style="color: black;">系统名称：${truncateText(result.name)}
-            <span class="enter-hint">↩︎</span>
+            <span class="enter-hint" style="color: #007acc; font-weight: bold;">${circledNumber}</span>
             <span class="delete-icon" data-index="${index}" title="删除">×</span>
           </div>
           <div style="color: gray; font-size: 0.9em;">系统地址：${truncateText(result.address, 50)}</div>
         </div>`;
       } else if (searchType.value === 'bookmark') {
         return `<div class="result-item ${index === selectedIndex ? 'selected' : ''}" data-url="${result.url}" data-index="${index}">
-          <div style="color: black;">书签名称：${truncateText(result.title)} <span class="enter-hint">↩︎</span></div>
+          <div style="color: black;">书签名称：${truncateText(result.title)} <span class="enter-hint" style="color: #007acc; font-weight: bold;">${circledNumber}</span></div>
           <div style="color: gray; font-size: 0.9em;">书签地址：${truncateText(result.url, 50)}</div>
         </div>`;
       } else if (searchType.value === 'tab') {
         return `<div class="result-item ${index === selectedIndex ? 'selected' : ''}" data-tab-id="${result.id}" data-index="${index}">
-          <div style="color: black;">标签名称：${truncateText(result.title)} <span class="enter-hint">↩︎</span></div>
+          <div style="color: black;">标签名称：${truncateText(result.title)} <span class="enter-hint" style="color: #007acc; font-weight: bold;">${circledNumber}</span></div>
           <div style="color: gray; font-size: 0.9em;">标签地址：${truncateText(result.url, 50)}</div>
         </div>`;
       } else if (searchType.value === 'history') {
         return `<div class="result-item ${index === selectedIndex ? 'selected' : ''}" data-url="${result.url}" data-index="${index}">
-          <div style="color: black;">历史记录：${truncateText(result.title)} <span class="enter-hint">↩︎</span></div>
+          <div style="color: black;">历史记录：${truncateText(result.title)} <span class="enter-hint" style="color: #007acc; font-weight: bold;">${circledNumber}</span></div>
           <div style="color: gray; font-size: 0.9em;">历史地址：${truncateText(result.url, 50)}</div>
         </div>`;
       }
@@ -194,6 +196,35 @@ document.addEventListener('DOMContentLoaded', function() {
   function resetPagination() {
     currentPage = 0;
     selectedIndex = -1;
+  }
+
+  function openResultByNumber(number) {
+    const resultIndex = number - 1; // 数字键1对应索引0
+    const currentPageResults = Math.min(itemsPerPage, filteredResults.length - currentPage * itemsPerPage);
+
+    if (resultIndex >= 0 && resultIndex < currentPageResults) {
+      const actualIndex = currentPage * itemsPerPage + resultIndex;
+      const result = filteredResults[actualIndex];
+      const currentQuery = searchInput.value;
+
+      // 记录搜索统计
+      SearchStats.recordSelection(currentQuery, searchType.value);
+
+      if (searchType.value === 'system' || searchType.value === 'bookmark') {
+        const url = searchType.value === 'system' ? result.address : result.url;
+        if (url) {
+          window.open(url, '_blank');
+          window.parent.postMessage({action: "hideIframe"}, "*");
+        }
+      } else if (searchType.value === 'tab') {
+        chrome.tabs.update(result.id, {active: true});
+        chrome.windows.update(result.windowId, {focused: true});
+        window.parent.postMessage({action: "hideIframe"}, "*");
+      } else if (searchType.value === 'history') {
+        window.open(result.url, '_blank');
+        window.parent.postMessage({action: "hideIframe"}, "*");
+      }
+    }
   }
 
   function openSelectedResult() {
@@ -303,6 +334,14 @@ document.addEventListener('DOMContentLoaded', function() {
       case 'Tab':
         event.preventDefault();
         toggleSearchType();
+        break;
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+        event.preventDefault();
+        openResultByNumber(parseInt(event.key));
         break;
     }
   });
