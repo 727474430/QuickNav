@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
   let filteredResults = [];
   let iframe = null;
   let isIframeLoading = false;
+  let currentPage = 0;
+  const itemsPerPage = 5;
 
   // 添加一个新的 div 用于显示搜索结果计数
   const countDiv = document.createElement('div');
@@ -24,6 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // 将光标移动到输入框末尾
     const length = searchInput.value.length;
     searchInput.setSelectionRange(length, length);
+  }
+
+  // 截断长文本并添加省略号
+  function truncateText(text, maxLength = 30) {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.substring(0, maxLength) + '...';
   }
 
   // 自动聚焦到搜索框
@@ -48,6 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   function displayResults(query) {
+    resetPagination(); // 重置分页状态
+
     if (searchType.value === 'system') {
       filteredResults = SystemsManager.searchSystems(query);
       renderResults();
@@ -94,31 +106,33 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function renderResults() {
-    // 只显示前5条结果
-    const displayedResults = filteredResults.slice(0, 5);
+    // 计算当前页的结果范围
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const displayedResults = filteredResults.slice(startIndex, endIndex);
     resultsDiv.innerHTML = displayedResults.map((result, index) => {
       if (searchType.value === 'system') {
         return `<div class="result-item ${index === selectedIndex ? 'selected' : ''}" data-url="${result.address}" data-index="${index}">
-          <div style="color: black;">系统名称：${result.name} 
+          <div style="color: black;">系统名称：${truncateText(result.name)}
             <span class="enter-hint">↩︎</span>
             <span class="delete-icon" data-index="${index}" title="删除">×</span>
           </div>
-          <div style="color: gray; font-size: 0.9em;">系统地址：${result.address}</div>
+          <div style="color: gray; font-size: 0.9em;">系统地址：${truncateText(result.address, 50)}</div>
         </div>`;
       } else if (searchType.value === 'bookmark') {
         return `<div class="result-item ${index === selectedIndex ? 'selected' : ''}" data-url="${result.url}" data-index="${index}">
-          <div style="color: black;">书签名称：${result.title} <span class="enter-hint">↩︎</span></div>
-          <div style="color: gray; font-size: 0.9em;">书签地址：${result.url}</div>
+          <div style="color: black;">书签名称：${truncateText(result.title)} <span class="enter-hint">↩︎</span></div>
+          <div style="color: gray; font-size: 0.9em;">书签地址：${truncateText(result.url, 50)}</div>
         </div>`;
       } else if (searchType.value === 'tab') {
         return `<div class="result-item ${index === selectedIndex ? 'selected' : ''}" data-tab-id="${result.id}" data-index="${index}">
-          <div style="color: black;">标签名称：${result.title} <span class="enter-hint">↩︎</span></div>
-          <div style="color: gray; font-size: 0.9em;">标签地址：${result.url}</div>
+          <div style="color: black;">标签名称：${truncateText(result.title)} <span class="enter-hint">↩︎</span></div>
+          <div style="color: gray; font-size: 0.9em;">标签地址：${truncateText(result.url, 50)}</div>
         </div>`;
       } else if (searchType.value === 'history') {
         return `<div class="result-item ${index === selectedIndex ? 'selected' : ''}" data-url="${result.url}" data-index="${index}">
-          <div style="color: black;">历史记录：${result.title} <span class="enter-hint">↩︎</span></div>
-          <div style="color: gray; font-size: 0.9em;">历史地址：${result.url}</div>
+          <div style="color: black;">历史记录：${truncateText(result.title)} <span class="enter-hint">↩︎</span></div>
+          <div style="color: gray; font-size: 0.9em;">历史地址：${truncateText(result.url, 50)}</div>
         </div>`;
       }
     }).join('');
@@ -144,8 +158,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // 添加新函数来更新结果计数
   function updateResultCount() {
     const totalCount = filteredResults.length;
-    const displayedCount = Math.min(totalCount, 5);
-    countDiv.textContent = `显示 ${displayedCount}/${totalCount} 条结果`;
+    const totalPages = Math.ceil(totalCount / itemsPerPage);
+
+    if (totalCount === 0) {
+      countDiv.textContent = '无结果';
+    } else {
+      countDiv.textContent = `第${currentPage + 1}/${totalPages}页 共${totalPages}页`;
+    }
   }
 
   function selectResult(index) {
@@ -153,9 +172,34 @@ document.addEventListener('DOMContentLoaded', function() {
     renderResults();
   }
 
+  function goToNextPage() {
+    const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
+    if (currentPage < totalPages - 1) {
+      currentPage++;
+      selectedIndex = 0; // 重置选中项到第一个
+      renderResults();
+      updateResultCount();
+    }
+  }
+
+  function goToPreviousPage() {
+    if (currentPage > 0) {
+      currentPage--;
+      selectedIndex = 0; // 重置选中项到第一个
+      renderResults();
+      updateResultCount();
+    }
+  }
+
+  function resetPagination() {
+    currentPage = 0;
+    selectedIndex = -1;
+  }
+
   function openSelectedResult() {
-    if (selectedIndex >= 0 && selectedIndex < filteredResults.length) {
-      const result = filteredResults[selectedIndex];
+    const actualIndex = currentPage * itemsPerPage + selectedIndex;
+    if (selectedIndex >= 0 && actualIndex < filteredResults.length) {
+      const result = filteredResults[actualIndex];
       const currentQuery = searchInput.value;
       
       // 记录搜索统计
@@ -225,19 +269,28 @@ document.addEventListener('DOMContentLoaded', function() {
   searchType.addEventListener('change', function() {
     const query = searchInput.value.toLowerCase();
     displayResults(query);
-    selectedIndex = -1;
   });
 
   // 添加 Tab 键切换功能
   searchInput.addEventListener('keydown', function(event) {
+    const currentPageResults = Math.min(itemsPerPage, filteredResults.length - currentPage * itemsPerPage);
+
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
-        selectResult(Math.min(selectedIndex + 1, Math.min(filteredResults.length - 1, 4)));
+        selectResult(Math.min(selectedIndex + 1, currentPageResults - 1));
         break;
       case 'ArrowUp':
         event.preventDefault();
         selectResult(Math.max(selectedIndex - 1, 0));
+        break;
+      case 'ArrowLeft':
+        event.preventDefault();
+        goToPreviousPage();
+        break;
+      case 'ArrowRight':
+        event.preventDefault();
+        goToNextPage();
         break;
       case 'Enter':
         event.preventDefault();
@@ -276,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function initializePopup() {
-    selectedIndex = -1;
+    resetPagination();
     filteredResults = [];
     displayResults(searchInput.value);
     focusSearchInput();
@@ -296,7 +349,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const target = event.target.closest('.result-item');
     if (target) {
       const index = parseInt(target.getAttribute('data-index'));
-      const result = filteredResults[index];
+      const actualIndex = currentPage * itemsPerPage + index;
+      const result = filteredResults[actualIndex];
       const currentQuery = searchInput.value;
       
       // 记录搜索统计
