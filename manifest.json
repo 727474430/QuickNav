@@ -8,7 +8,8 @@
     "tabs",
     "bookmarks",
     "history",
-    "scripting"
+    "scripting",
+    "clipboardWrite"
   ],
   "host_permissions": [
     "<all_urls>"

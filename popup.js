@@ -36,6 +36,62 @@ document.addEventListener('DOMContentLoaded', function() {
     return text.substring(0, maxLength) + '...';
   }
 
+  // 将文本复制到剪贴板（带降级方案）
+  async function copyToClipboard(text) {
+    if (!text) return false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (e) {
+      // ignore and fallback
+    }
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.top = '-1000px';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function showToast(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(66, 133, 244, 0.95);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 4px;
+      z-index: 9999;
+      font-size: 13px;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 1500);
+  }
+
+  async function copySystemPasswordIfPresent(result) {
+    if (searchType.value !== 'system') return;
+    if (result && result.password) {
+      const ok = await copyToClipboard(result.password);
+      if (ok) {
+        showToast('密码已复制到剪贴板');
+      }
+    }
+  }
+
   // 自动聚焦到搜索框
   focusSearchInput();
 
@@ -213,6 +269,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (searchType.value === 'system' || searchType.value === 'bookmark') {
         const url = searchType.value === 'system' ? result.address : result.url;
         if (url) {
+          if (searchType.value === 'system') {
+            copySystemPasswordIfPresent(result);
+          }
           window.open(url, '_blank');
           window.parent.postMessage({action: "hideIframe"}, "*");
         }
@@ -239,6 +298,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (searchType.value === 'system' || searchType.value === 'bookmark') {
         const url = searchType.value === 'system' ? result.address : result.url;
         if (url) {
+          if (searchType.value === 'system') {
+            copySystemPasswordIfPresent(result);
+          }
           window.open(url, '_blank');
           window.parent.postMessage({action: "hideIframe"}, "*");
         }
@@ -398,6 +460,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (searchType.value === 'system' || searchType.value === 'bookmark') {
         const url = searchType.value === 'system' ? result.address : result.url;
         if (url) {
+          if (searchType.value === 'system') {
+            copySystemPasswordIfPresent(result);
+          }
           window.open(url, '_blank');
           window.parent.postMessage({action: "hideIframe"}, "*");
         }
@@ -511,7 +576,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const newSystem = {
         name: currentTab.title,
         address: currentTab.url,
-        pinyin: getPinyin(currentTab.title) // 这里需要实现getPinyin函数
+        pinyin: getPinyin(currentTab.title),
+        password: ''
       };
       
       SystemsManager.addSystem(newSystem).then(() => {

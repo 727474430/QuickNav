@@ -34,12 +34,18 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // 创建系统行
+  function maskPassword(pwd) {
+    if (!pwd) return '';
+    return '•'.repeat(Math.min(pwd.length, 8));
+  }
+
   function createSystemRow(system, index) {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${system.name}</td>
       <td>${system.address}</td>
       <td>${system.pinyin}</td>
+      <td>${maskPassword(system.password)}</td>
       <td class="action-buttons">
         <button class="edit-button" data-index="${index}">编辑</button>
         <button class="delete-button" data-index="${index}">删除</button>
@@ -56,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <td><input type="text" name="name" value="${system.name}" required></td>
       <td><input type="text" name="address" value="${system.address}" required></td>
       <td><input type="text" name="pinyin" value="${system.pinyin}" required></td>
+      <td><input type="password" name="password" value="${system.password || ''}" placeholder="可留空"></td>
       <td>
         <button class="save-button" data-index="${index}">保存</button>
         <button class="cancel-button" data-index="${index}">取消</button>
@@ -66,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 添加新系统
   function addSystem() {
-    const newSystem = { name: '', address: '', pinyin: '' };
+    const newSystem = { name: '', address: '', pinyin: '', password: '' };
     const systems = SystemsManager.getAllSystems();
     const newIndex = systems.length;
     currentPage = Math.ceil((newIndex + 1) / itemsPerPage);
@@ -101,17 +108,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const inputs = row.querySelectorAll('input');
-    if (inputs.length !== 3) {
-      console.error('Expected 3 input fields, found:', inputs.length);
+    if (inputs.length !== 4) {
+      console.error('Expected 4 input fields, found:', inputs.length);
       return;
     }
 
-    const [nameInput, addressInput, pinyinInput] = inputs;
+    const [nameInput, addressInput, pinyinInput, passwordInput] = inputs;
 
     const updatedSystem = {
       name: nameInput.value,
       address: addressInput.value,
-      pinyin: pinyinInput.value
+      pinyin: pinyinInput.value,
+      password: passwordInput.value || ''
     };
 
     if (updatedSystem.name && updatedSystem.address && updatedSystem.pinyin) {
