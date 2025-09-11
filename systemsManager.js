@@ -82,7 +82,8 @@ const SystemsManager = {
   searchSystems(query) {
     return this.systems.filter(system =>
       (system.name || '').toLowerCase().includes(query.toLowerCase()) ||
-      (system.pinyin || '').toLowerCase().includes(query.toLowerCase())
+      (system.pinyin || '').toLowerCase().includes(query.toLowerCase()) ||
+      (system.address || '').toLowerCase().includes(query.toLowerCase())
     );
   },
 
