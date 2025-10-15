@@ -20,17 +20,11 @@ const SystemsManager = {
         this.systems = [];
       }
     } else {
-      // 如果 localStorage 中没有数据，使用默认系统列表
+      // 如果 localStorage 中没有数据，使用默认系统列表（示例）
       this.systems = [
-        { name: '新官网', address: 'https://www.groupama-sdig.com', pinyin: 'xgw', password: '' },
-        { name: '新OA', address: 'http://oa.groupama-sdig.com', pinyin: 'xoa', password: '' },
-        { name: 'IT小盟', address: 'http://it.groupama-sdig.com', pinyin: 'itxm', password: '' },
-        { name: 'Fastgpt', address: 'http://10.28.8.72:3020/app/list', pinyin: 'fastgpt', password: '' },
-        { name: 'OneAPI', address: 'http://10.28.8.72:3000/', pinyin: 'oneapi', password: '' },
-        { name: 'ELK-生产', address: 'http://10.28.9.170:5601/app/home', pinyin: 'elksc', password: '' },
-        { name: 'ELK-测试', address: 'http://10.28.3.66:5601/app/home', pinyin: 'elkcs', password: '' },
-        { name: 'AI智能化平台', address: 'http://10.28.8.203:8080/', pinyin: 'aiplatform', password: '' },
-        { name: 'SQL平台', address: 'http://archery.groupama-avic.com.cn/sqlquery/', pinyin: 'sqlpt', password: '' }
+        { name: 'GitHub', address: 'https://github.com', pinyin: 'gh', password: '' },
+        { name: 'Google', address: 'https://www.google.com', pinyin: 'gg', password: '' },
+        { name: '示例系统', address: 'https://example.com', pinyin: 'slxt', password: '' }
       ];
       this.saveSystems();
     }

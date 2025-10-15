@@ -37,7 +37,7 @@ function createAndShowIframe() {
         isLoading = false;
         reject(new Error('iframe加载失败'));
       };
-      iframe.src = chrome.runtime.getURL('popup.html') + '?t=' + new Date().getTime();
+      iframe.src = chrome.runtime.getURL('src/popup/popup.html') + '?t=' + new Date().getTime();
     });
   }
 

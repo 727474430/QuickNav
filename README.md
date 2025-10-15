@@ -1,6 +1,26 @@
-# 企业内部业务系统快速访问插件
+# 企业内部业务系统快速访问插件 / Enterprise System Quick Access
+
+<div align="center">
+
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Chrome](https://img.shields.io/badge/chrome-v88%2B-brightgreen.svg)
+![Manifest](https://img.shields.io/badge/manifest-v3-orange.svg)
 
 一个强大的Chrome扩展，帮助你快速访问和管理企业内部的各种业务系统。支持系统快速搜索、书签管理、标签页切换和历史记录查询等功能。
+
+[English](./README_EN.md) | 简体中文
+
+</div>
+
+## 📸 预览截图
+
+> 💡 提示：首次开源发布前，建议在此添加项目截图或演示GIF
+
+![插件主界面](./screenshots/main-interface.png)
+![搜索演示](./screenshots/search-demo.gif)
+
+<!-- 请将截图放在 screenshots/ 目录下 -->
 
 ## 主要特性
 
@@ -88,26 +108,150 @@ my-chrome-extension/
 - 优化的UI渲染性能
 - 完善的错误处理机制
 
-## 注意事项
+## ⚙️ 高级配置
 
-1. 首次使用需要授予以下权限：
-   - 标签页访问权限
-   - 书签访问权限
-   - 历史记录访问权限
+### LLM智能命名
 
-2. 系统数据存储在本地，清除浏览器数据可能会影响已保存的系统列表
+插件支持集成大语言模型来优化系统名称：
 
-3. 为保证最佳性能，搜索结果默认显示前5条
+1. 打开设置页面
+2. 启用"LLM优化命名"选项
+3. 配置以下参数：
+   - **模型名称**：如 `GLM-4.5-Flash`、`gpt-4o-mini` 等
+   - **API地址**：OpenAI兼容的Chat Completions接口
+   - **API密钥**：你的API Key（仅存储在本地）
+4. 点击"测试命名"验证配置
 
-## 贡献指南
+**支持的LLM提供商**：
+- 智谱AI（GLM系列）
+- OpenAI（GPT系列）
+- 其他兼容OpenAI协议的服务
 
-欢迎提交Issue和Pull Request来帮助改进这个项目。在提交代码前，请确保：
+## ⚠️ 注意事项
 
-1. 代码风格保持一致
-2. 添加必要的注释
-3. 更新相关文档
-4. 测试功能正常
+1. **权限说明**：首次使用需要授予以下权限
+   - 标签页访问权限（切换和添加标签）
+   - 书签访问权限（搜索书签）
+   - 历史记录访问权限（搜索历史）
+   - 剪贴板写入权限（复制密码）
 
-## 许可证
+2. **数据存储**：系统数据存储在本地（localStorage + chrome.storage），清除浏览器数据可能会影响已保存的系统列表
 
-MIT License 
+3. **性能优化**：搜索结果默认每页显示5条，使用左右箭头键翻页
+
+4. **隐私保护**：所有数据仅保存在本地，不会上传到任何服务器（LLM功能除外，需要调用配置的API）
+
+## ❓ 常见问题 (FAQ)
+
+<details>
+<summary><b>Q: 为什么快捷键不生效？</b></summary>
+
+A: 请检查：
+1. 访问 `chrome://extensions/shortcuts` 确认快捷键是否被其他扩展占用
+2. 某些Chrome特殊页面（如chrome://、edge://）不支持内容脚本注入
+3. 尝试重新加载扩展程序
+</details>
+
+<details>
+<summary><b>Q: 如何备份我的系统列表？</b></summary>
+
+A: 打开设置页面，点击"导出"按钮即可将系统列表保存为JSON文件。恢复时点击"导入"选择该文件即可。
+</details>
+
+<details>
+<summary><b>Q: LLM功能需要付费吗？</b></summary>
+
+A: LLM功能是可选的，需要你自己申请API密钥。不同提供商有不同的定价策略，大多数提供免费额度。不启用LLM时，插件会使用本地拼音规则生成缩写。
+</details>
+
+<details>
+<summary><b>Q: 支持同步到其他设备吗？</b></summary>
+
+A: 当前版本暂不支持云端同步，但你可以通过"导出/导入"功能手动同步数据。未来版本可能会添加云同步功能。
+</details>
+
+<details>
+<summary><b>Q: 如何修改已添加的系统信息？</b></summary>
+
+A: 打开设置页面，在系统列表中直接修改对应行的信息，修改后会自动保存。
+</details>
+
+## 🚀 发布和安装
+
+### Chrome Web Store（即将上线）
+
+<!-- 待上架后更新链接 -->
+> 🔜 即将在Chrome Web Store上架，敬请期待！
+
+### 手动安装（开发者模式）
+
+适用于开发测试或商店审核期间：
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/your-username/sys-go.git
+cd sys-go
+
+# 2. 在Chrome中加载
+# - 打开 chrome://extensions/
+# - 启用"开发者模式"
+# - 点击"加载已解压的扩展程序"
+# - 选择项目目录
+```
+
+## 🤝 贡献指南
+
+欢迎提交Issue和Pull Request来帮助改进这个项目！
+
+### 如何贡献
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启Pull Request
+
+### 代码规范
+
+- 保持代码风格一致
+- 添加必要的注释（JSDoc格式）
+- 更新相关文档
+- 确保功能正常运行
+
+### 报告问题
+
+如果发现Bug或有功能建议，请[提交Issue](https://github.com/your-username/sys-go/issues)，并提供：
+- 详细的问题描述
+- 复现步骤
+- 浏览器版本和扩展版本
+- 截图或错误信息（如有）
+
+## 🔒 隐私政策
+
+- ✅ 所有数据仅存储在本地浏览器中
+- ✅ 不收集任何用户信息
+- ✅ 不向第三方发送数据（LLM功能除外，且需用户主动配置）
+- ✅ 开源透明，代码可审计
+
+## 📄 许可证
+
+本项目采用 [MIT License](./LICENSE) 开源许可证。
+
+## 🙏 致谢
+
+感谢所有为本项目做出贡献的开发者！
+
+## 📮 联系方式
+
+- Issues: [GitHub Issues](https://github.com/your-username/sys-go/issues)
+- Email: your-email@example.com
+
+---
+
+<div align="center">
+
+如果这个项目对你有帮助，请给它一个 ⭐️ Star！
+
+Made with ❤️ by sys-go Contributors
+
+</div> 

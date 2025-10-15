@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.action === "closePopup") {
     chrome.action.setPopup({popup: ""});
     setTimeout(() => {
-      chrome.action.setPopup({popup: "popup.html"});
+      chrome.action.setPopup({popup: "src/popup/popup.html"});
     }, 100);
   } else if (request.action === 'llmOptimizeSystemInfo') {
     optimizeSystemInfoInBg(request.title, request.url)

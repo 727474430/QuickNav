@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const keyboardButton = document.getElementById('keyboard-button');
 
   settingsButton.addEventListener('click', function() {
-    chrome.tabs.create({url: 'settings.html'});
+    chrome.tabs.create({url: chrome.runtime.getURL('src/settings/settings.html')});
   });
 
   keyboardButton.addEventListener('click', function() {
