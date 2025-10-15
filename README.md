@@ -17,22 +17,55 @@
 
 ## 📸 预览截图
 
-> 💡 提示：首次开源发布前，建议在此添加项目截图或演示GIF
-
-![插件主界面](./screenshots/main-interface.png)
-![搜索演示](./screenshots/search-demo.gif)
-
-<!-- 请将截图放在 screenshots/ 目录下 -->
+<table>
+  <tr>
+    <td align="center">
+      <img src="./screenshots/main-interface.png" alt="插件主界面" width="400"/>
+      <br/>
+      <b>插件主界面</b>
+    </td>
+    <td align="center">
+      <img src="./screenshots/search-demo1.png" alt="搜索结果1" width="400"/>
+      <br/>
+      <b>搜索结果展示</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="./screenshots/search-demo2.png" alt="搜索结果2" width="400"/>
+      <br/>
+      <b>拼音搜索演示</b>
+    </td>
+    <td align="center">
+      <img src="./screenshots/search-bookmark.png" alt="书签内容搜索" width="400"/>
+      <br/>
+      <b>书签内容搜索</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="./screenshots/configs.png" alt="系统设置界面" width="400"/>
+      <br/>
+      <b>系统设置界面</b>
+    </td>
+    <td align="center">
+      <img src="./screenshots/setting-keyword.png" alt="快捷键设置界面" width="400"/>
+      <br/>
+      <b>快捷键设置</b>
+    </td>
+  </tr>
+</table>
 
 ## 主要特性
 
 - 🚀 快速访问：通过快捷键（Ctrl+Shift+F）快速唤起搜索界面
-- 🔍 智能搜索：支持系统名称和拼音缩写搜索
+- 🔍 智能搜索：支持系统名称和拼音缩写搜索，Tab键快速切换搜索源
 - 📑 多源搜索：支持搜索系统、书签、标签页和历史记录
-- ➕ 快速添加：一键将当前网站添加到系统列表
+- ➕ 快速添加：一键添加当前网站（Ctrl+Shift+S）或点击界面"+"按钮
 - 🗑️ 便捷管理：直观的系统删除和确认机制
 - 💡 智能提示：操作反馈清晰，使用体验流畅
-- 🎯 精准定位：支持键盘导航和快速跳转
+- 🎯 精准定位：支持键盘导航和快速跳转，数字键1-5快速选择结果
+- 📄 分页展示：搜索结果默认每页显示5条，左右键切换分页
 - 🔐 密码便捷：为系统可选配置密码，打开系统时自动复制到剪贴板
 
 ## 安装说明
@@ -52,12 +85,13 @@
       - 在浏览器右上角点击插件图标唤起搜索界面
       - 按下 Ctrl+Shift+F（Windows）或 Command+Shift+F（Mac）唤起搜索界面
    - 输入系统名称或拼音缩写进行搜索
-   - 使用方向键选择结果，Enter键打开选中项
+   - 搜索结果默认显示前5条，可通过左右键切换分页
+   - 使用方向键选择结果，或按数字键1-5快速选中对应项，Enter键打开选中项
 
 2. 添加系统
    - 访问想要添加的网站
-   - 按快捷键打开插件
-   - 点击左下角"+"按钮即可添加当前网站
+   - 按快捷键 Ctrl+Shift+S（Mac: Command+Shift+S）快速添加
+   - 或者打开插件，点击左下角"+"按钮添加当前网站
    - 系统会自动获取网站标题和URL，并生成拼音缩写
 
 3. 删除系统
@@ -65,22 +99,31 @@
    - 点击右侧"×"图标
    - 在确认对话框中确认删除
 
+4. 界面功能按钮
+   - **右下角按钮**：提供快捷操作入口
+     - 添加网站：快速添加当前浏览的网站
+     - 快捷键设置：自定义插件的快捷键组合
+     - 系统设置：配置插件的高级选项（LLM智能命名、导入导出等）
+
 ### 搜索模式
 
-插件支持四种搜索模式，可以通过下拉菜单或Tab键切换：
+插件支持四种搜索模式，可以通过下拉菜单选择或按Tab键快速切换：
 
-- 系统：搜索已添加的业务系统
-- 书签：搜索浏览器书签
-- 标签：搜索当前打开的标签页
-- 历史：搜索浏览历史记录
+- **系统**：搜索已添加的业务系统
+- **书签**：搜索浏览器书签
+- **标签**：搜索当前打开的标签页
+- **历史**：搜索浏览历史记录
 
 ### 键盘快捷键
 
-- Ctrl+Shift+F / Command+Shift+F：打开搜索界面
-- ↑/↓：在搜索结果中导航
-- Enter：打开选中的项目
-- Tab：切换搜索模式
-- Esc：关闭搜索界面
+- **Ctrl+Shift+F** / **Command+Shift+F**：打开搜索界面
+- **Ctrl+Shift+S** / **Command+Shift+S**：添加当前网站到系统列表
+- **↑/↓**：在搜索结果中导航
+- **←/→**：切换搜索结果分页
+- **1/2/3/4/5**：快速选中对应序号的搜索结果
+- **Enter**：打开选中的项目
+- **Tab**：切换搜索模式（系统/书签/标签/历史）
+- **Esc**：关闭搜索界面
 
 ## 项目结构
 
@@ -178,56 +221,6 @@ A: 当前版本暂不支持云端同步，但你可以通过"导出/导入"功�
 A: 打开设置页面，在系统列表中直接修改对应行的信息，修改后会自动保存。
 </details>
 
-## 🚀 发布和安装
-
-### Chrome Web Store（即将上线）
-
-<!-- 待上架后更新链接 -->
-> 🔜 即将在Chrome Web Store上架，敬请期待！
-
-### 手动安装（开发者模式）
-
-适用于开发测试或商店审核期间：
-
-```bash
-# 1. 克隆项目
-git clone https://github.com/your-username/sys-go.git
-cd sys-go
-
-# 2. 在Chrome中加载
-# - 打开 chrome://extensions/
-# - 启用"开发者模式"
-# - 点击"加载已解压的扩展程序"
-# - 选择项目目录
-```
-
-## 🤝 贡献指南
-
-欢迎提交Issue和Pull Request来帮助改进这个项目！
-
-### 如何贡献
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启Pull Request
-
-### 代码规范
-
-- 保持代码风格一致
-- 添加必要的注释（JSDoc格式）
-- 更新相关文档
-- 确保功能正常运行
-
-### 报告问题
-
-如果发现Bug或有功能建议，请[提交Issue](https://github.com/your-username/sys-go/issues)，并提供：
-- 详细的问题描述
-- 复现步骤
-- 浏览器版本和扩展版本
-- 截图或错误信息（如有）
-
 ## 🔒 隐私政策
 
 - ✅ 所有数据仅存储在本地浏览器中
@@ -238,15 +231,6 @@ cd sys-go
 ## 📄 许可证
 
 本项目采用 [MIT License](./LICENSE) 开源许可证。
-
-## 🙏 致谢
-
-感谢所有为本项目做出贡献的开发者！
-
-## 📮 联系方式
-
-- Issues: [GitHub Issues](https://github.com/your-username/quicknav/issues)
-- Email: your-email@example.com
 
 ---
 

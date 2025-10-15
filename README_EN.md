@@ -7,9 +7,9 @@
 ![Chrome](https://img.shields.io/badge/chrome-v88%2B-brightgreen.svg)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange.svg)
 
-**One-Click Access to Any Webpage**
+**Your Universal Web Navigator**
 
-A powerful Chrome extension for smart search and quick access to custom websites, bookmarks, tabs, and browsing history.
+One-click access to any webpage - A powerful Chrome extension for smart search and quick access to custom websites, bookmarks, tabs, and browsing history.
 
 English | [简体中文](./README.md)
 
@@ -17,49 +17,64 @@ English | [简体中文](./README.md)
 
 ## 📸 Screenshots
 
-> 💡 Tip: Please add project screenshots or demo GIFs before the first open-source release
-
-![Main Interface](./screenshots/main-interface.png)
-![Search Demo](./screenshots/search-demo.gif)
-
-<!-- Place screenshots in the screenshots/ directory -->
+<table>
+  <tr>
+    <td align="center">
+      <img src="./screenshots/main-interface.png" alt="Main Interface" width="400"/>
+      <br/>
+      <b>Main Interface</b>
+    </td>
+    <td align="center">
+      <img src="./screenshots/search-demo1.png" alt="Search Results" width="400"/>
+      <br/>
+      <b>Search Results</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="./screenshots/search-demo2.png" alt="Pinyin Search" width="400"/>
+      <br/>
+      <b>Pinyin Search Demo</b>
+    </td>
+    <td align="center">
+      <img src="./screenshots/search-bookmark.png" alt="Bookmark Search" width="400"/>
+      <br/>
+      <b>Bookmark Search</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="./screenshots/configs.png" alt="Settings Interface" width="400"/>
+      <br/>
+      <b>Settings Interface</b>
+    </td>
+    <td align="center">
+      <img src="./screenshots/setting-keyword.png" alt="Keyboard Shortcuts" width="400"/>
+      <br/>
+      <b>Keyboard Shortcuts</b>
+    </td>
+  </tr>
+</table>
 
 ## ✨ Key Features
 
-- 🚀 **Quick Access**: Open search interface with hotkey (Ctrl+Shift+F)
-- 🔍 **Smart Search**: Support system name and pinyin abbreviation search
+- 🚀 **Quick Access**: Quickly open search interface with hotkey (Ctrl+Shift+F)
+- 🔍 **Smart Search**: Support system name and pinyin abbreviation search, Tab key to quickly switch search sources
 - 📑 **Multi-Source Search**: Search systems, bookmarks, tabs, and history
-- ➕ **Quick Add**: Add current website to system list with one click (Ctrl+Shift+S)
-- 🗑️ **Easy Management**: Intuitive system deletion with confirmation
+- ➕ **Quick Add**: One-click add current website (Ctrl+Shift+S) or click the "+" button
+- 🗑️ **Easy Management**: Intuitive system deletion with confirmation mechanism
 - 💡 **Smart Hints**: Clear operation feedback for smooth experience
-- 🎯 **Precise Navigation**: Full keyboard navigation and quick jump support
+- 🎯 **Precise Navigation**: Keyboard navigation and quick jump support, number keys 1-5 for quick selection
+- 📄 **Pagination**: Search results display 5 items per page by default, use left/right keys to switch pages
 - 🔐 **Password Convenience**: Optional password field, auto-copy to clipboard when opening
-- 🤖 **AI Naming**: Integrated LLM for smart optimization of system names and pinyin
-- 🔢 **Number Shortcuts**: Use number keys 1-5 to quickly open corresponding results
-- 📊 **Smart Learning**: Auto-switch search type based on search habits
 
 ## 🚀 Installation
 
-### Chrome Web Store (Coming Soon)
-
-<!-- Update link after listing -->
-> 🔜 Coming soon to Chrome Web Store!
-
-### Manual Installation (Developer Mode)
-
-For development testing or during store review:
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/your-username/quicknav.git
-cd quicknav
-
-# 2. Load in Chrome
-# - Open chrome://extensions/
-# - Enable "Developer mode"
-# - Click "Load unpacked extension"
-# - Select the project directory
-```
+1. Download the project code
+2. Open Chrome browser, go to extensions page (chrome://extensions/)
+3. Enable "Developer mode"
+4. Click "Load unpacked"
+5. Select the project directory to complete installation
 
 ## 📖 Usage Guide
 
@@ -67,20 +82,28 @@ cd quicknav
 
 1. **Quick Access**
    - Access the plugin by:
-     - Click the plugin icon in the browser toolbar
-     - Press Ctrl+Shift+F (Windows) or Command+Shift+F (Mac)
+     - Click the plugin icon in the browser toolbar to open search interface
+     - Press Ctrl+Shift+F (Windows) or Command+Shift+F (Mac) to open search interface
    - Enter system name or pinyin abbreviation to search
-   - Use arrow keys to select results, press Enter to open
+   - Search results display the first 5 items by default, use left/right keys to switch pages
+   - Use arrow keys to select results, or press number keys 1-5 to quickly select corresponding items, press Enter to open selected item
 
 2. **Add System**
    - Visit the website you want to add
-   - Press the hotkey or click the "+" button in the popup
+   - Press hotkey Ctrl+Shift+S (Mac: Command+Shift+S) for quick add
+   - Or open the plugin and click the "+" button in the lower left corner to add current website
    - The system will automatically get the website title and URL, and generate pinyin abbreviation
 
 3. **Delete System**
    - Find the system you want to delete in the search results
    - Click the "×" icon on the right
    - Confirm deletion in the confirmation dialog
+
+4. **Interface Buttons**
+   - **Lower right corner buttons**: Provide quick operation shortcuts
+     - Add Website: Quickly add the current browsing website
+     - Keyboard Shortcuts: Customize plugin keyboard shortcuts
+     - Settings: Configure plugin advanced options (LLM smart naming, import/export, etc.)
 
 ### Search Modes
 
@@ -93,19 +116,19 @@ The plugin supports four search modes, switchable via dropdown menu or Tab key:
 
 ### Keyboard Shortcuts
 
-- Ctrl+Shift+F / Command+Shift+F: Open search interface
-- Ctrl+Shift+S / Command+Shift+S: Add current website
-- ↑/↓: Navigate through search results
-- ←/→: Previous/Next page
-- Enter: Open selected item
-- Tab: Switch search mode
-- Esc: Close search interface
-- 1-5: Quick open corresponding result
+- **Ctrl+Shift+F** / **Command+Shift+F**: Open search interface
+- **Ctrl+Shift+S** / **Command+Shift+S**: Add current website to system list
+- **↑/↓**: Navigate through search results
+- **←/→**: Switch search result pages
+- **1/2/3/4/5**: Quickly select search result by number
+- **Enter**: Open selected item
+- **Tab**: Switch search mode (Systems/Bookmarks/Tabs/History)
+- **Esc**: Close search interface
 
 ## 🏗️ Project Structure
 
 ```
-sys-go/
+my-chrome-extension/
 ├── manifest.json        # Extension configuration
 ├── popup.html          # Popup window UI
 ├── popup.js           # Popup window logic
@@ -113,12 +136,22 @@ sys-go/
 ├── background.js      # Background script
 ├── systemsManager.js  # System manager
 ├── searchStats.js     # Search statistics
-├── llm.js            # LLM integration
-├── settings.html     # Settings page
-├── settings.js       # Settings logic
-├── styles.css        # Stylesheet
-└── images/          # Icon resources
+├── styles.css         # Stylesheet
+└── images/           # Icon resources
+    ├── add.png
+    ├── keyboard.png
+    ├── search.png
+    └── setting.png
 ```
+
+## 🔧 Technical Features
+
+- Native JavaScript implementation, no external dependencies
+- Support Chinese pinyin search
+- Local storage of system data
+- Real-time search and filtering
+- Optimized UI rendering performance
+- Comprehensive error handling mechanism
 
 ## ⚙️ Advanced Configuration
 
@@ -149,9 +182,9 @@ The plugin supports integrating large language models to optimize system names:
 
 2. **Data Storage**: System data is stored locally (localStorage + chrome.storage), clearing browser data may affect saved system list
 
-3. **Performance**: Search results display 5 items per page by default, use left/right arrow keys to paginate
+3. **Performance Optimization**: Search results display 5 items per page by default, use left/right arrow keys to paginate
 
-4. **Privacy**: All data is saved locally only, not uploaded to any server (except LLM feature, which requires configured API)
+4. **Privacy Protection**: All data is saved locally only, not uploaded to any server (except LLM feature, which requires configured API)
 
 ## ❓ FAQ
 
@@ -173,19 +206,19 @@ A: Open the settings page and click the "Export" button to save the system list 
 <details>
 <summary><b>Q: Is the LLM feature paid?</b></summary>
 
-A: The LLM feature is optional and requires you to apply for an API key yourself. Different providers have different pricing policies, most offer free quotas. Without LLM, the plugin uses local pinyin rules to generate abbreviations.
+A: The LLM feature is optional and requires you to apply for an API key yourself. Different providers have different pricing policies, most offer free quotas. Without LLM enabled, the plugin uses local pinyin rules to generate abbreviations.
 </details>
 
 <details>
 <summary><b>Q: Does it support sync to other devices?</b></summary>
 
-A: The current version doesn't support cloud sync, but you can manually sync data via "Export/Import" feature. Future versions may add cloud sync.
+A: The current version doesn't support cloud sync, but you can manually sync data via "Export/Import" feature. Future versions may add cloud sync functionality.
 </details>
 
 <details>
 <summary><b>Q: How to modify added system information?</b></summary>
 
-A: Open the settings page, directly modify the information in the system list row, changes are auto-saved.
+A: Open the settings page, directly modify the information in the corresponding row of the system list, changes are auto-saved.
 </details>
 
 ## 🤝 Contributing
@@ -225,15 +258,6 @@ If you find bugs or have feature suggestions, please [submit an Issue](https://g
 ## 📄 License
 
 This project is licensed under the [MIT License](./LICENSE).
-
-## 🙏 Acknowledgments
-
-Thanks to all developers who contributed to this project!
-
-## 📮 Contact
-
-- Issues: [GitHub Issues](https://github.com/your-username/quicknav/issues)
-- Email: your-email@example.com
 
 ---
 
