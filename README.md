@@ -1,4 +1,4 @@
-# 企业内部业务系统快速访问插件 / Enterprise System Quick Access
+# QuickNav - 快捷导航
 
 <div align="center">
 
@@ -7,7 +7,9 @@
 ![Chrome](https://img.shields.io/badge/chrome-v88%2B-brightgreen.svg)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange.svg)
 
-一个强大的Chrome扩展，帮助你快速访问和管理企业内部的各种业务系统。支持系统快速搜索、书签管理、标签页切换和历史记录查询等功能。
+**Your Universal Web Navigator**
+
+一键直达任何网页 - 强大的Chrome扩展，支持自定义网站、书签、标签页和历史记录的智能搜索与快速访问。
 
 [English](./README_EN.md) | 简体中文
 
@@ -243,7 +245,7 @@ cd sys-go
 
 ## 📮 联系方式
 
-- Issues: [GitHub Issues](https://github.com/your-username/sys-go/issues)
+- Issues: [GitHub Issues](https://github.com/your-username/quicknav/issues)
 - Email: your-email@example.com
 
 ---
@@ -252,6 +254,6 @@ cd sys-go
 
 如果这个项目对你有帮助，请给它一个 ⭐️ Star！
 
-Made with ❤️ by sys-go Contributors
+Made with ❤️ by QuickNav Contributors
 
 </div> 

@@ -1,4 +1,4 @@
-# Enterprise System Quick Access / 企业内部业务系统快速访问插件
+# QuickNav - Your Universal Web Navigator
 
 <div align="center">
 
@@ -7,7 +7,9 @@
 ![Chrome](https://img.shields.io/badge/chrome-v88%2B-brightgreen.svg)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange.svg)
 
-A powerful Chrome extension that helps you quickly access and manage various enterprise internal systems. Supports fast system search, bookmark management, tab switching, and history query.
+**One-Click Access to Any Webpage**
+
+A powerful Chrome extension for smart search and quick access to custom websites, bookmarks, tabs, and browsing history.
 
 English | [简体中文](./README.md)
 
@@ -49,8 +51,8 @@ For development testing or during store review:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/sys-go.git
-cd sys-go
+git clone https://github.com/your-username/quicknav.git
+cd quicknav
 
 # 2. Load in Chrome
 # - Open chrome://extensions/
@@ -207,7 +209,7 @@ Welcome to submit Issues and Pull Requests to help improve this project!
 
 ### Report Issues
 
-If you find bugs or have feature suggestions, please [submit an Issue](https://github.com/your-username/sys-go/issues) with:
+If you find bugs or have feature suggestions, please [submit an Issue](https://github.com/your-username/quicknav/issues) with:
 - Detailed problem description
 - Reproduction steps
 - Browser version and extension version
@@ -230,7 +232,7 @@ Thanks to all developers who contributed to this project!
 
 ## 📮 Contact
 
-- Issues: [GitHub Issues](https://github.com/your-username/sys-go/issues)
+- Issues: [GitHub Issues](https://github.com/your-username/quicknav/issues)
 - Email: your-email@example.com
 
 ---
@@ -239,6 +241,6 @@ Thanks to all developers who contributed to this project!
 
 If this project helps you, please give it a ⭐️ Star!
 
-Made with ❤️ by sys-go Contributors
+Made with ❤️ by QuickNav Contributors
 
 </div>
