@@ -137,6 +137,30 @@
         <button id="export-button">导出</button>
       </div>
     </div>
+
+    <!-- LLM 设置区 -->
+    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #eee;">
+      <h2 style="margin: 0 0 12px;">智能命名（LLM）</h2>
+      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+        <label><input type="checkbox" id="llm-enabled"> 启用 LLM 优化命名</label>
+      </div>
+      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <label for="zhipu-model" style="min-width:88px;">模型名称</label>
+        <input id="zhipu-model" type="text" placeholder="如：GLM-4.5-Flash 或 gpt-4o-mini" style="flex:1; min-width:220px; padding:8px; border:1px solid #ccc; border-radius:4px;" />
+      </div>
+      <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap: wrap;">
+        <label for="zhipu-base-url" style="min-width:88px;">API 地址</label>
+        <input id="zhipu-base-url" type="text" placeholder="Chat Completions Base URL，例如：https://open.bigmodel.cn/api/paas/v4/chat/completions" style="flex:1; min-width:260px; padding:8px; border:1px solid #ccc; border-radius:4px;"/>
+      </div>
+      <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap: wrap;">
+        <label for="zhipu-api-key" style="min-width:88px;">API 密钥</label>
+        <input id="zhipu-api-key" type="password" placeholder="Bearer Token（无需填写 Bearer 前缀）" style="flex:1; min-width:260px; padding:8px; border:1px solid #ccc; border-radius:4px;"/>
+        <button id="save-llm-settings">保存 LLM 设置</button>
+        <button id="test-llm" style="background:#34a853;">测试命名</button>
+      </div>
+      <div id="llm-save-tip" style="font-size:12px; color:#666; margin-top:6px;">支持 OpenAI 协议兼容接口；Base URL 与 Key 仅保存在本地（chrome.storage.local）。</div>
+      <pre id="llm-test-output" style="margin-top:10px; background:#f9f9f9; border:1px solid #eee; border-radius:6px; padding:10px; max-height:140px; overflow:auto; font-size:12px; white-space:pre-wrap;"></pre>
+    </div>
   </div>
   
   <script src="systemsManager.js"></script>

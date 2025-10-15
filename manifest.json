@@ -9,7 +9,8 @@
     "bookmarks",
     "history",
     "scripting",
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -43,6 +44,13 @@
         "mac": "Command+Shift+F"
       },
       "description": "打开搜索弹窗"
+    },
+    "add-current-site": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "添加当前网站到系统列表"
     }
   }
 }

@@ -43,7 +43,18 @@ const SystemsManager = {
     return Promise.resolve();
   },
 
-  // 添加新系统
+  // 归一化地址（用于去重）
+  _normalizeAddress(address) {
+    try {
+      const u = new URL(address);
+      const pathname = (u.pathname || '/').replace(/\/+$/, '');
+      return `${u.protocol}//${u.host}${pathname}`;
+    } catch (e) {
+      return (address || '').replace(/\/+$/, '');
+    }
+  },
+
+  // 添加新系统（按URL去重，存在则更新）
   addSystem(system) {
     const normalized = {
       name: system.name || '',
@@ -51,8 +62,19 @@ const SystemsManager = {
       pinyin: system.pinyin || '',
       password: system.password || ''
     };
+
+    const targetAddr = this._normalizeAddress(normalized.address);
+    const idx = this.systems.findIndex(s => this._normalizeAddress(s.address) === targetAddr);
+
+    if (idx >= 0) {
+      // 已存在：更新记录，若新密码为空则保留旧密码
+      const keepPassword = normalized.password ? normalized.password : (this.systems[idx].password || '');
+      this.systems[idx] = { ...normalized, password: keepPassword };
+      return this.saveSystems().then(() => ({ status: 'updated' }));
+    }
+
     this.systems.push(normalized);
-    return this.saveSystems();
+    return this.saveSystems().then(() => ({ status: 'added' }));
   },
 
   // 编辑系统

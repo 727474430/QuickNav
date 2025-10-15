@@ -569,19 +569,38 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(newIframe);
   }
 
-  // 添加系统按钮点击事件
-  document.getElementById('add-system-button').addEventListener('click', function() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  // 复用逻辑：添加当前标签为系统
+  async function addCurrentTabAsSystem() {
+    chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
+      if (!tabs || !tabs[0]) return;
       const currentTab = tabs[0];
+
+      // 先用默认策略（兜底）
+      let name = currentTab.title;
+      let pinyin = getPinyin(currentTab.title);
+
+      // 通过后台请求 LLM（避免 CORS），失败则保留默认
+      try {
+        const res = await chrome.runtime.sendMessage({
+          action: 'llmOptimizeSystemInfo',
+          title: currentTab.title,
+          url: currentTab.url
+        });
+        if (res && res.ok && res.data && res.data.name && res.data.pinyin) {
+          name = res.data.name;
+          pinyin = res.data.pinyin;
+        }
+      } catch (_) { /* 忽略异常，继续使用默认 */ }
+
       const newSystem = {
-        name: currentTab.title,
+        name,
         address: currentTab.url,
-        pinyin: getPinyin(currentTab.title),
+        pinyin,
         password: ''
       };
-      
-      SystemsManager.addSystem(newSystem).then(() => {
-        // 显示添加成功提示
+
+      SystemsManager.addSystem(newSystem).then((res) => {
+        // 显示提示（在弹层内部）
         const notification = document.createElement('div');
         notification.style.cssText = `
           position: fixed;
@@ -594,15 +613,30 @@ document.addEventListener('DOMContentLoaded', function() {
           border-radius: 4px;
           z-index: 9999;
         `;
-        notification.textContent = '系统添加成功！';
+        const msg = (res && res.status === 'updated') ? '已更新现有系统！' : '系统添加成功！';
+        notification.textContent = msg;
         document.body.appendChild(notification);
-        
-        // 3秒后移除提示
+
         setTimeout(() => {
           notification.remove();
-        }, 3000);
+        }, 2000);
+
+        // 通知父页面（内容脚本）显示页面级提示
+        try {
+          window.parent.postMessage({ action: 'addCurrentSiteResult', success: true, status: res && res.status }, '*');
+        } catch (e) { /* ignore */ }
       });
     });
+  }
+
+  // 按钮点击使用同一逻辑
+  document.getElementById('add-system-button').addEventListener('click', addCurrentTabAsSystem);
+
+  // 接收来自内容脚本/后台的消息以执行添加
+  window.addEventListener('message', function(event) {
+    if (event.data && event.data.action === 'addCurrentSite') {
+      addCurrentTabAsSystem();
+    }
   });
 
   // 添加获取拼音缩写的函数

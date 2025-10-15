@@ -223,6 +223,146 @@ document.addEventListener('DOMContentLoaded', function() {
     URL.revokeObjectURL(url);
   });
 
+  // LLM 设置：初始化
+  (function initLLMSettings(){
+    const elEnabled = document.getElementById('llm-enabled');
+    const elKey = document.getElementById('zhipu-api-key');
+    const elModel = document.getElementById('zhipu-model');
+    const elBase = document.getElementById('zhipu-base-url');
+    const btnSave = document.getElementById('save-llm-settings');
+
+    function syncFromStorage() {
+      try {
+        chrome.storage.local.get(['llm_enabled','zhipu_api_key','zhipu_model','zhipu_base_url'], (items) => {
+          const enabled = (items && items.llm_enabled) ? items.llm_enabled === '1' : ((localStorage.getItem('llm_enabled') || '') === '1');
+          const key = (items && items.zhipu_api_key) || localStorage.getItem('zhipu_api_key') || '';
+          const model = (items && items.zhipu_model) || localStorage.getItem('zhipu_model') || 'GLM-4.5-Flash';
+          const base = (items && items.zhipu_base_url) || localStorage.getItem('zhipu_base_url') || 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+          if (elEnabled) elEnabled.checked = enabled;
+          if (elKey) elKey.value = key;
+          if (elModel) elModel.value = model;
+          if (elBase) elBase.value = base;
+        });
+      } catch (_) {
+        const enabled = (localStorage.getItem('llm_enabled') || '') === '1';
+        const key = localStorage.getItem('zhipu_api_key') || '';
+        const model = localStorage.getItem('zhipu_model') || 'GLM-4.5-Flash';
+        const base = localStorage.getItem('zhipu_base_url') || 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+        if (elEnabled) elEnabled.checked = enabled;
+        if (elKey) elKey.value = key;
+        if (elModel) elModel.value = model;
+        if (elBase) elBase.value = base;
+      }
+    }
+
+    function showSavedToast(text) {
+      const tip = document.createElement('div');
+      tip.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#4CAF50;color:#fff;padding:8px 12px;border-radius:4px;z-index:9999;font-size:13px;';
+      tip.textContent = text || '已保存';
+      document.body.appendChild(tip);
+      setTimeout(()=>tip.remove(), 1500);
+    }
+
+    function persistSettings() {
+      const enabledVal = elEnabled && elEnabled.checked ? '1' : '';
+      const keyVal = (elKey && elKey.value) || '';
+      const modelVal = (elModel && elModel.value) || 'GLM-4.5-Flash';
+      const baseVal = (elBase && elBase.value) || 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+      try { chrome.storage.local.set({ llm_enabled: enabledVal, zhipu_api_key: keyVal, zhipu_model: modelVal, zhipu_base_url: baseVal }); } catch (_) {}
+      localStorage.setItem('llm_enabled', enabledVal);
+      localStorage.setItem('zhipu_api_key', keyVal);
+      localStorage.setItem('zhipu_model', modelVal);
+      localStorage.setItem('zhipu_base_url', baseVal);
+    }
+
+    if (btnSave) {
+      btnSave.addEventListener('click', function(){
+        persistSettings();
+        showSavedToast('LLM 设置已保存');
+      });
+    }
+
+    // 自动保存：复选框 change、输入框 blur/Enter
+    if (elEnabled) {
+      elEnabled.addEventListener('change', function(){
+        persistSettings();
+        showSavedToast('LLM 设置已保存');
+      });
+    }
+    [elModel, elBase, elKey].forEach(function(el){
+      if (!el) return;
+      el.addEventListener('blur', function(){
+        persistSettings();
+        showSavedToast('LLM 设置已保存');
+      });
+      el.addEventListener('keydown', function(e){
+        if (e.key === 'Enter') {
+          persistSettings();
+          showSavedToast('LLM 设置已保存');
+        }
+      });
+    });
+
+    // 测试命名按钮
+    const btnTest = document.getElementById('test-llm');
+    const out = document.getElementById('llm-test-output');
+    if (btnTest && out) {
+      btnTest.addEventListener('click', function(){
+        persistSettings();
+        out.textContent = '测试中… 请稍候';
+        btnTest.disabled = true;
+        btnTest.textContent = '测试中…';
+
+        // 选取一个合适的活动标签页（尽量非扩展页面）
+        try {
+          chrome.windows.getAll({ populate: true }, (wins) => {
+            let candidate = null;
+            const isHttp = (u) => /^https?:\/\//i.test(u || '');
+            const isExtension = (u) => /^chrome(-extension)?:\/\//i.test(u || '') || /^edge:\/\//i.test(u || '') || /^about:/i.test(u || '');
+
+            for (const w of wins) {
+              if (!w || !Array.isArray(w.tabs)) continue;
+              const activeTab = w.tabs.find(t => t.active);
+              if (activeTab && !isExtension(activeTab.url)) { candidate = activeTab; break; }
+            }
+            if (!candidate) {
+              for (const w of wins) {
+                for (const t of (w.tabs || [])) {
+                  if (isHttp(t.url)) { candidate = t; break; }
+                }
+                if (candidate) break;
+              }
+            }
+            if (!candidate) candidate = wins?.[0]?.tabs?.[0];
+
+            const title = (candidate && candidate.title) || document.title;
+            const url = (candidate && candidate.url) || location.href;
+
+            chrome.runtime.sendMessage({ action: 'llmOptimizeSystemInfo', title, url }, (res) => {
+              btnTest.disabled = false;
+              btnTest.textContent = '测试命名';
+              if (chrome.runtime.lastError) {
+                out.textContent = `调用失败: ${chrome.runtime.lastError.message || '未知错误'}`;
+                return;
+              }
+              if (res && res.ok && res.data) {
+                out.textContent = JSON.stringify(res.data, null, 2);
+              } else {
+                out.textContent = '调用失败或未启用/未配置 API Key。';
+              }
+            });
+          });
+        } catch (e) {
+          btnTest.disabled = false;
+          btnTest.textContent = '测试命名';
+          out.textContent = `调用失败: ${e && e.message ? e.message : e}`;
+        }
+      });
+    }
+
+    syncFromStorage();
+  })();
+
   // 初始加载系统列表
   SystemsManager.loadSystems().then(renderSystems);
 });
