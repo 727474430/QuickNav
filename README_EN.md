@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Chrome](https://img.shields.io/badge/chrome-v88%2B-brightgreen.svg)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange.svg)
@@ -58,10 +58,10 @@ English | [简体中文](./README.md)
 
 ## Key Features
 
-- 🚀 Quick Access: Quickly open search interface with hotkey (Ctrl+Shift+F)
+- 🚀 Quick Access: Quickly open search interface with hotkey (Alt+Shift+K / Mac: Option+Shift+K)
 - 🔍 Smart Search: Support system name and pinyin abbreviation search, Tab key to quickly switch search sources
 - 📑 Multi-Source Search: Search systems, bookmarks, tabs, and history
-- ➕ Quick Add: One-click add current website (Ctrl+Shift+S) or click the "+" button
+- ➕ Quick Add: One-click add current website (Alt+Shift+S / Mac: Option+Shift+S) or click the "+" button
 - 🗑️ Easy Management: Intuitive system deletion with confirmation mechanism
 - 💡 Smart Hints: Clear operation feedback for smooth experience
 - 🎯 Precise Navigation: Keyboard navigation and quick jump support, number keys 1-5 for quick selection
@@ -83,14 +83,14 @@ English | [简体中文](./README.md)
 1. **Quick Access**
    - Access the plugin by:
      - Click the plugin icon in the browser toolbar to open search interface
-     - Press Ctrl+Shift+F (Windows) or Command+Shift+F (Mac) to open search interface
+     - Press Alt+Shift+K (Windows/Linux) or Option+Shift+K (Mac) to open search interface
    - Enter system name or pinyin abbreviation to search
    - Search results display the first 5 items by default, use left/right keys to switch pages
    - Use arrow keys to select results, or press number keys 1-5 to quickly select corresponding items, press Enter to open selected item
 
 2. **Add System**
    - Visit the website you want to add
-   - Press hotkey Ctrl+Shift+S (Mac: Command+Shift+S) for quick add
+   - Press hotkey Alt+Shift+S (Mac: Option+Shift+S) for quick add
    - Or open the plugin and click the "+" button in the lower left corner to add current website
    - The system will automatically get the website title and URL, and generate pinyin abbreviation
 
@@ -116,8 +116,8 @@ The plugin supports four search modes, switchable via dropdown menu or Tab key:
 
 ### Keyboard Shortcuts
 
-- **Ctrl+Shift+F** / **Command+Shift+F**: Open search interface
-- **Ctrl+Shift+S** / **Command+Shift+S**: Add current website to system list
+- **Alt+Shift+K** (Windows/Linux) / **Option+Shift+K** (Mac): Open search interface
+- **Alt+Shift+S** / **Option+Shift+S**: Add current website to system list
 - **↑/↓**: Navigate through search results
 - **←/→**: Switch search result pages
 - **1/2/3/4/5**: Quickly select search result by number

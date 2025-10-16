@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Chrome](https://img.shields.io/badge/chrome-v88%2B-brightgreen.svg)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange.svg)
@@ -58,10 +58,10 @@
 
 ## 主要特性
 
-- 🚀 快速访问：通过快捷键（Ctrl+Shift+F）快速唤起搜索界面
+- 🚀 快速访问：通过快捷键（Alt+Shift+K / Mac: Option+Shift+K）快速唤起搜索界面
 - 🔍 智能搜索：支持系统名称和拼音缩写搜索，Tab键快速切换搜索源
 - 📑 多源搜索：支持搜索系统、书签、标签页和历史记录
-- ➕ 快速添加：一键添加当前网站（Ctrl+Shift+S）或点击界面"+"按钮
+- ➕ 快速添加：一键添加当前网站（Alt+Shift+S / Mac: Option+Shift+S）或点击界面"+"按钮
 - 🗑️ 便捷管理：直观的系统删除和确认机制
 - 💡 智能提示：操作反馈清晰，使用体验流畅
 - 🎯 精准定位：支持键盘导航和快速跳转，数字键1-5快速选择结果
@@ -83,14 +83,14 @@
 1. 快速访问
    - 通过以下方式唤起插件：  
       - 在浏览器右上角点击插件图标唤起搜索界面
-      - 按下 Ctrl+Shift+F（Windows）或 Command+Shift+F（Mac）唤起搜索界面
+      - 按下 Alt+Shift+K（Windows/Linux）或 Option+Shift+K（Mac）唤起搜索界面
    - 输入系统名称或拼音缩写进行搜索
    - 搜索结果默认显示前5条，可通过左右键切换分页
    - 使用方向键选择结果，或按数字键1-5快速选中对应项，Enter键打开选中项
 
 2. 添加系统
    - 访问想要添加的网站
-   - 按快捷键 Ctrl+Shift+S（Mac: Command+Shift+S）快速添加
+   - 按快捷键 Alt+Shift+S（Mac: Option+Shift+S）快速添加
    - 或者打开插件，点击左下角"+"按钮添加当前网站
    - 系统会自动获取网站标题和URL，并生成拼音缩写
 
@@ -116,8 +116,8 @@
 
 ### 键盘快捷键
 
-- **Ctrl+Shift+F** / **Command+Shift+F**：打开搜索界面
-- **Ctrl+Shift+S** / **Command+Shift+S**：添加当前网站到系统列表
+- **Alt+Shift+K**（Windows/Linux） / **Option+Shift+K**（Mac）：打开搜索界面
+- **Alt+Shift+S** / **Option+Shift+S**：添加当前网站到系统列表
 - **↑/↓**：在搜索结果中导航
 - **←/→**：切换搜索结果分页
 - **1/2/3/4/5**：快速选中对应序号的搜索结果

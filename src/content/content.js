@@ -168,7 +168,7 @@ function ensureIframeLoadedThen(action) {
       try { iframe.remove(); } catch (e) {}
       iframe = null;
     };
-    iframe.src = chrome.runtime.getURL('popup.html') + '?t=' + new Date().getTime();
+    iframe.src = chrome.runtime.getURL('src/popup/popup.html') + '?t=' + new Date().getTime();
     document.body.appendChild(iframe);
   } catch (e) {
     isLoading = false;
