@@ -60,6 +60,7 @@ English | [简体中文](./README.md)
 
 - 🚀 Quick Access: Quickly open search interface with hotkey (Alt+Shift+K / Mac: Option+Shift+K)
 - 🔍 Smart Search: Support system name and pinyin abbreviation search, Tab key to quickly switch search sources
+- 🧠 Smart Memory: Automatically remembers your search habits and switches to your most-used search type (Systems/Bookmarks/Tabs/History) for the same keyword
 - 📑 Multi-Source Search: Search systems, bookmarks, tabs, and history
 - ➕ Quick Add: One-click add current website (Alt+Shift+S / Mac: Option+Shift+S) or click the "+" button
 - 🗑️ Easy Management: Intuitive system deletion with confirmation mechanism
@@ -113,6 +114,10 @@ The plugin supports four search modes, switchable via dropdown menu or Tab key:
 - **Bookmarks**: Search browser bookmarks
 - **Tabs**: Search currently open tabs
 - **History**: Search browsing history
+
+**Smart Memory Feature**: The extension automatically tracks which results you select in different search modes. When you type the same keyword again, it will automatically switch to your most frequently used search type. For example:
+- If you often search for "github" and select results from bookmarks, next time you type "github" it will automatically switch to bookmarks mode
+- If you often search for "jira" and select results from the systems list, next time you type "jira" it will automatically switch to systems mode
 
 ### Keyboard Shortcuts
 
