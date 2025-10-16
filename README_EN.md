@@ -56,19 +56,19 @@ English | [简体中文](./README.md)
   </tr>
 </table>
 
-## ✨ Key Features
+## Key Features
 
-- 🚀 **Quick Access**: Quickly open search interface with hotkey (Ctrl+Shift+F)
-- 🔍 **Smart Search**: Support system name and pinyin abbreviation search, Tab key to quickly switch search sources
-- 📑 **Multi-Source Search**: Search systems, bookmarks, tabs, and history
-- ➕ **Quick Add**: One-click add current website (Ctrl+Shift+S) or click the "+" button
-- 🗑️ **Easy Management**: Intuitive system deletion with confirmation mechanism
-- 💡 **Smart Hints**: Clear operation feedback for smooth experience
-- 🎯 **Precise Navigation**: Keyboard navigation and quick jump support, number keys 1-5 for quick selection
-- 📄 **Pagination**: Search results display 5 items per page by default, use left/right keys to switch pages
-- 🔐 **Password Convenience**: Optional password field, auto-copy to clipboard when opening
+- 🚀 Quick Access: Quickly open search interface with hotkey (Ctrl+Shift+F)
+- 🔍 Smart Search: Support system name and pinyin abbreviation search, Tab key to quickly switch search sources
+- 📑 Multi-Source Search: Search systems, bookmarks, tabs, and history
+- ➕ Quick Add: One-click add current website (Ctrl+Shift+S) or click the "+" button
+- 🗑️ Easy Management: Intuitive system deletion with confirmation mechanism
+- 💡 Smart Hints: Clear operation feedback for smooth experience
+- 🎯 Precise Navigation: Keyboard navigation and quick jump support, number keys 1-5 for quick selection
+- 📄 Pagination: Search results display 5 items per page by default, use left/right keys to switch pages
+- 🔐 Password Convenience: Optional password field, auto-copy to clipboard when opening
 
-## 🚀 Installation
+## Installation
 
 1. Download the project code
 2. Open Chrome browser, go to extensions page (chrome://extensions/)
@@ -76,7 +76,7 @@ English | [简体中文](./README.md)
 4. Click "Load unpacked"
 5. Select the project directory to complete installation
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### Basic Operations
 
@@ -125,7 +125,7 @@ The plugin supports four search modes, switchable via dropdown menu or Tab key:
 - **Tab**: Switch search mode (Systems/Bookmarks/Tabs/History)
 - **Esc**: Close search interface
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 my-chrome-extension/
@@ -144,7 +144,7 @@ my-chrome-extension/
     └── setting.png
 ```
 
-## 🔧 Technical Features
+## Technical Features
 
 - Native JavaScript implementation, no external dependencies
 - Support Chinese pinyin search
@@ -220,33 +220,6 @@ A: The current version doesn't support cloud sync, but you can manually sync dat
 
 A: Open the settings page, directly modify the information in the corresponding row of the system list, changes are auto-saved.
 </details>
-
-## 🤝 Contributing
-
-Welcome to submit Issues and Pull Requests to help improve this project!
-
-### How to Contribute
-
-1. Fork this repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Code Standards
-
-- Keep code style consistent
-- Add necessary comments (JSDoc format)
-- Update related documentation
-- Ensure functionality works properly
-
-### Report Issues
-
-If you find bugs or have feature suggestions, please [submit an Issue](https://github.com/your-username/quicknav/issues) with:
-- Detailed problem description
-- Reproduction steps
-- Browser version and extension version
-- Screenshots or error messages (if any)
 
 ## 🔒 Privacy Policy
 
