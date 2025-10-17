@@ -580,17 +580,26 @@ document.addEventListener('DOMContentLoaded', function() {
       let pinyin = getPinyin(currentTab.title);
 
       // 通过后台请求 LLM（避免 CORS），失败则保留默认
-      try {
-        const res = await chrome.runtime.sendMessage({
-          action: 'llmOptimizeSystemInfo',
-          title: currentTab.title,
-          url: currentTab.url
-        });
-        if (res && res.ok && res.data && res.data.name && res.data.pinyin) {
-          name = res.data.name;
-          pinyin = res.data.pinyin;
-        }
-      } catch (_) { /* 忽略异常，继续使用默认 */ }
+      const res = await (async function sendMessageAsync(payload){
+        try {
+          return await new Promise((resolve) => {
+            try {
+              chrome.runtime.sendMessage(payload, (resp) => {
+                if (chrome.runtime.lastError) return resolve(null);
+                resolve(resp);
+              });
+            } catch (_) { resolve(null); }
+          });
+        } catch (_) { return null; }
+      })({
+        action: 'llmOptimizeSystemInfo',
+        title: currentTab.title,
+        url: currentTab.url
+      });
+      if (res && res.ok && res.data && res.data.name && res.data.pinyin) {
+        name = res.data.name;
+        pinyin = res.data.pinyin;
+      }
 
       const newSystem = {
         name,

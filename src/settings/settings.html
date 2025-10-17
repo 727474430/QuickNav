@@ -161,6 +161,28 @@
       <div id="llm-save-tip" style="font-size:12px; color:#666; margin-top:6px;">支持 OpenAI 协议兼容接口；Base URL 与 Key 仅保存在本地（chrome.storage.local）。</div>
       <pre id="llm-test-output" style="margin-top:10px; background:#f9f9f9; border:1px solid #eee; border-radius:6px; padding:10px; max-height:140px; overflow:auto; font-size:12px; white-space:pre-wrap;"></pre>
     </div>
+
+    <!-- 快捷键模式（单键双击添加） -->
+    <div style="margin-top:24px; padding-top:16px; border-top:1px solid #eee;">
+      <h2 style="margin:0 0 12px;">快捷键模式</h2>
+      <label style="font-size:13px; display:block; margin-bottom:6px;">
+        <input type="checkbox" id="single-hotkey-mode" /> 启用单一快捷键模式（双击主快捷键快速“添加当前网站”）
+      </label>
+      <div style="font-size:12px; color:#666;">说明：开启后仅需要保留“打开搜索面板”一个快捷键；默认 380ms 的双击判定延迟，可在下方滑块微调（200–800ms）。</div>
+      <div style="margin-top:10px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <label for="single-hotkey-delay" style="font-size:13px; min-width:120px;">双击判定延迟</label>
+        <input type="range" id="single-hotkey-delay" min="200" max="800" step="20" style="width:240px;">
+        <span id="single-hotkey-delay-text" style="font-size:12px; color:#444;">380 ms</span>
+      </div>
+    </div>
+
+    <!-- 快捷键状态 -->
+    <div style="margin-top:24px; padding-top:16px; border-top:1px solid #eee;">
+      <h2 style="margin:0 0 12px;">快捷键状态</h2>
+      <div id="shortcuts-status" style="font-size:13px; color:#333; line-height:1.8;"></div>
+      <button id="open-shortcuts" style="margin-top:8px;">打开 Chrome 快捷键设置</button>
+      <div style="margin-top:8px; font-size:12px; color:#666;">提示：若快捷键包含 Alt+Shift，在部分系统/输入法中可能与“切换输入法”冲突，建议改用 Ctrl+Shift（Win/Linux）或 Command+Option（macOS）。</div>
+    </div>
   </div>
   
   <script src="../utils/systemsManager.js"></script>

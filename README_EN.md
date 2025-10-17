@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Chrome](https://img.shields.io/badge/chrome-v88%2B-brightgreen.svg)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange.svg)
@@ -68,6 +68,8 @@ English | [简体中文](./README.md)
 - 🎯 Precise Navigation: Keyboard navigation and quick jump support, number keys 1-5 for quick selection
 - 📄 Pagination: Search results display 5 items per page by default, use left/right keys to switch pages
 - 🔐 Password Convenience: Optional password field, auto-copy to clipboard when opening
+- 🕹 Single Hotkey Mode (optional): Double-press the main hotkey to "Add current website"; single press opens the search after an adjustable delay (default 380ms, adjustable in Settings)
+- ⌨️ Shortcuts Status Panel: See current bindings in Settings and jump to Chrome’s shortcuts page to resolve conflicts
 
 ## Installation
 
@@ -106,6 +108,12 @@ English | [简体中文](./README.md)
      - Keyboard Shortcuts: Customize plugin keyboard shortcuts
      - Settings: Configure plugin advanced options (LLM smart naming, import/export, etc.)
 
+5. **Single Hotkey Mode (optional)**
+   - Open Settings → check "Enable Single Hotkey Mode"
+   - Single press the main hotkey: open the search after a short delay (default 380ms)
+   - Double press the main hotkey (press again within the delay): directly "Add current website" without opening the UI
+   - Adjust delay with the slider in Settings (200–800ms, step 20ms)
+
 ### Search Modes
 
 The plugin supports four search modes, switchable via dropdown menu or Tab key:
@@ -123,6 +131,8 @@ The plugin supports four search modes, switchable via dropdown menu or Tab key:
 
 - **Alt+Shift+K** (Windows/Linux) / **Option+Shift+K** (Mac): Open search interface
 - **Alt+Shift+S** / **Option+Shift+S**: Add current website to system list
+- (Optional) Single Hotkey Mode: Double-press the main hotkey to add current website; default 380ms, adjustable in Settings
+- (Tip) If Alt/Option+Shift conflicts with your OS/IME, consider Windows/Linux: `Ctrl+Shift+K` / `Ctrl+Shift+Y`; macOS: `Command+Option+K` / `Command+Option+S`
 - **↑/↓**: Navigate through search results
 - **←/→**: Switch search result pages
 - **1/2/3/4/5**: Quickly select search result by number
@@ -176,6 +186,15 @@ The plugin supports integrating large language models to optimize system names:
 - Zhipu AI (GLM series)
 - OpenAI (GPT series)
 - Other OpenAI protocol-compatible services
+
+### Single Hotkey Mode & Double-Press Delay
+
+1. Open the Settings page → enable "Single Hotkey Mode"
+2. Behavior:
+   - Single press: open search after a short delay
+   - Double press: directly add current website
+3. Adjust the double-press detection delay with the slider: 200–800ms, default 380ms (step 20ms)
+4. The "Shortcuts Status" panel shows actual bindings and a quick link to `chrome://extensions/shortcuts`
 
 ## ⚠️ Notes
 

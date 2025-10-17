@@ -19,11 +19,3 @@
 ## 升级与提示
 - 更新扩展后：访问 `chrome://extensions/` 点击“重新加载”。
 - 在 `chrome://extensions/shortcuts` 核对并按需自定义快捷键；如某些环境仍冲突，可自行改为其它组合。
-
----
-
-## English Summary
-- Default hotkey to open search is now `Alt+Shift+K` across platforms (shows as `Option+Shift+K` on macOS).
-- Fix: "Add current site" works on first use by loading hidden iframe from `src/popup/popup.html`.
-- Fix: Avoid blank defaults on Chrome shortcuts page by explicitly setting platform-specific key mappings.
-- Docs & assets updated accordingly.

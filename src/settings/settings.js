@@ -363,6 +363,100 @@ document.addEventListener('DOMContentLoaded', function() {
     syncFromStorage();
   })();
 
+  // 单一快捷键模式：加载/保存
+  (function singleHotkeyModeSetting(){
+    const el = document.getElementById('single-hotkey-mode');
+    if (!el) return;
+    const key = 'single_hotkey_mode';
+    function sync(){
+      try {
+        chrome.storage.local.get([key], (items) => {
+          const enabled = (items && items[key]) === '1' || localStorage.getItem(key) === '1';
+          el.checked = !!enabled;
+        });
+      } catch (_) {
+        el.checked = (localStorage.getItem(key) === '1');
+      }
+    }
+    function persist(val){
+      const v = val ? '1' : '';
+      try { chrome.storage.local.set({ [key]: v }); } catch (_) {}
+      localStorage.setItem(key, v);
+    }
+    el.addEventListener('change', ()=> persist(el.checked));
+    sync();
+  })();
+
+  // 单一快捷键双击判定延迟：加载/保存
+  (function singleHotkeyDelaySetting(){
+    const slider = document.getElementById('single-hotkey-delay');
+    const readout = document.getElementById('single-hotkey-delay-text');
+    if (!slider || !readout) return;
+    const key = 'single_hotkey_delay_ms';
+    const clamp = (n) => Math.min(800, Math.max(200, Math.round(Number(n) || 380)));
+    function sync(){
+      try {
+        chrome.storage.local.get([key], (items) => {
+          const raw = (items && items[key]) ?? localStorage.getItem(key);
+          const v = clamp(raw);
+          slider.value = String(v);
+          readout.textContent = `${v} ms`;
+        });
+      } catch (_) {
+        const v = clamp(localStorage.getItem(key));
+        slider.value = String(v);
+        readout.textContent = `${v} ms`;
+      }
+    }
+    function persist(v){
+      const val = clamp(v);
+      try { chrome.storage.local.set({ [key]: String(val) }); } catch (_) {}
+      localStorage.setItem(key, String(val));
+    }
+    slider.addEventListener('input', () => {
+      const v = clamp(slider.value);
+      readout.textContent = `${v} ms`;
+    });
+    slider.addEventListener('change', () => {
+      const v = clamp(slider.value);
+      persist(v);
+    });
+    // 默认值 380
+    if (!localStorage.getItem(key)) {
+      persist(380);
+    }
+    sync();
+  })();
+
+  // 快捷键状态渲染
+  (function renderShortcutStatus(){
+    const container = document.getElementById('shortcuts-status');
+    const btnOpen = document.getElementById('open-shortcuts');
+    if (btnOpen) {
+      btnOpen.addEventListener('click', () => {
+        chrome.tabs.create({ url: 'chrome://extensions/shortcuts' });
+      });
+    }
+    if (!container || !chrome.commands || !chrome.commands.getAll) return;
+    try {
+      chrome.commands.getAll((cmds) => {
+        const map = (cmds || []).reduce((acc, c) => { acc[c.name] = c; return acc; }, {});
+        const open = map['toggle-search'];
+        const add = map['add-current-site'];
+        function fmt(c){ return (c && c.shortcut) ? c.shortcut : '未分配/冲突'; }
+        const warn = (txt) => `<span style=\"color:#d93025;\">${txt}</span>`;
+        const openTxt = fmt(open);
+        const addTxt = fmt(add);
+        const openRow = (openTxt.includes('未分配')) ? warn(openTxt) : openTxt;
+        const addRow = (addTxt.includes('未分配')) ? warn(addTxt) : addTxt;
+        container.innerHTML = `
+          <div>打开搜索面板（toggle-search）：<b>${openRow}</b></div>
+          <div>添加当前网站（add-current-site）：<b>${addRow}</b></div>
+        `;
+      });
+    } catch (_) { /* ignore */ }
+  })();
+
   // 初始加载系统列表
   SystemsManager.loadSystems().then(renderSystems);
 });

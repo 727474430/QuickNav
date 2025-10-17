@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "QuickNav",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Your Universal Web Navigator - 一键直达任何网页，支持自定义网站、书签、标签页和历史记录的智能搜索",
   "permissions": [
     "activeTab",

@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Chrome](https://img.shields.io/badge/chrome-v88%2B-brightgreen.svg)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange.svg)
@@ -68,6 +68,8 @@
 - 🎯 精准定位：支持键盘导航和快速跳转，数字键1-5快速选择结果
 - 📄 分页展示：搜索结果默认每页显示5条，左右键切换分页
 - 🔐 密码便捷：为系统可选配置密码，打开系统时自动复制到剪贴板
+- 🕹 单一快捷键模式（可选）：双击主快捷键直接“添加当前网站”，单击在可调延迟后打开搜索面板（默认 380ms，可在设置中调整）
+- ⌨️ 快捷键状态面板：设置页展示当前绑定并一键打开 Chrome 快捷键页，快速排查/调整冲突
 
 ## 安装说明
 
@@ -106,6 +108,12 @@
      - 快捷键设置：自定义插件的快捷键组合
      - 系统设置：配置插件的高级选项（LLM智能命名、导入导出等）
 
+5. 单一快捷键模式（可选）
+   - 打开“设置”→ 勾选“启用单一快捷键模式”
+   - 单击主快捷键：在延迟（默认 380ms）后打开搜索面板
+   - 双击主快捷键（在延迟内第二次按下）：直接“添加当前网站”，不弹出搜索面板
+   - 可在设置页通过滑块将延迟调整到 200–800ms（步长 20ms）
+
 ### 搜索模式
 
 插件支持四种搜索模式，可以通过下拉菜单选择或按Tab键快速切换：
@@ -123,6 +131,8 @@
 
 - **Alt+Shift+K**（Windows/Linux） / **Option+Shift+K**（Mac）：打开搜索界面
 - **Alt+Shift+S** / **Option+Shift+S**：添加当前网站到系统列表
+- （可选）单一快捷键模式：双击主快捷键直接“添加当前网站”；默认 380ms，设置页可调
+- （建议）若遇到 Alt/Option+Shift 与输入法冲突，可改为 Windows/Linux：`Ctrl+Shift+K` / `Ctrl+Shift+Y`；macOS：`Command+Option+K` / `Command+Option+S`
 - **↑/↓**：在搜索结果中导航
 - **←/→**：切换搜索结果分页
 - **1/2/3/4/5**：快速选中对应序号的搜索结果
@@ -176,6 +186,15 @@ my-chrome-extension/
 - 智谱AI（GLM系列）
 - OpenAI（GPT系列）
 - 其他兼容OpenAI协议的服务
+
+### 单一快捷键模式与延迟调节
+
+1. 打开设置页面 → 勾选“启用单一快捷键模式”
+2. 使用说明：
+   - 单击主快捷键：在延迟后打开搜索面板
+   - 双击主快捷键：直接“添加当前网站”
+3. 滑块调节双击判定延迟：范围 200–800ms，默认 380ms（步长 20ms）
+4. “快捷键状态”面板可查看实际绑定并一键打开 `chrome://extensions/shortcuts` 调整冲突
 
 ## ⚠️ 注意事项
 

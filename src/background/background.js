@@ -1,18 +1,97 @@
-chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener(async () => {
   console.log("插件已安装");
 });
 
+// 封装：向活动标签发送消息；若无接收端则尝试按需注入内容脚本并重试
+function ensureContentAndSend(tab, message) {
+  try {
+    if (!tab || !tab.id) return;
+    const url = tab.url || '';
+    // 跳过受限页面，避免报错：chrome://, edge://, about:, chrome-extension:// 等
+    if (/^(chrome|edge):\/\//i.test(url) || /^about:/i.test(url) || /^chrome-extension:\/\//i.test(url)) {
+      return;
+    }
+
+    const trySend = () => {
+      try {
+        chrome.tabs.sendMessage(tab.id, message, () => {
+          const err = chrome.runtime.lastError;
+          if (err && /Receiving end does not exist/i.test(err.message || '')) {
+            // 按需注入内容脚本后重试（在可注入页面上有效）
+            try {
+              chrome.scripting.executeScript(
+                { target: { tabId: tab.id }, files: ['src/content/content.js'] },
+                () => {
+                  setTimeout(() => {
+                    try { chrome.tabs.sendMessage(tab.id, message); } catch (_) {}
+                  }, 60);
+                }
+              );
+            } catch (_) { /* ignore */ }
+          }
+        });
+      } catch (_) { /* ignore */ }
+    };
+
+    trySend();
+  } catch (_) { /* ignore */ }
+}
+
 function injectIframe() {
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {action: "toggleIframe"});
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    if (!tabs || !tabs[0]) return;
+    ensureContentAndSend(tabs[0], { action: 'toggleIframe' });
   });
 }
 
+let singleHotkeyModeCache = false;
+let singleHotkeyDelayMs = 380; // 默认 380ms，可在设置页调整
+try {
+  chrome.storage.local.get(['single_hotkey_mode', 'single_hotkey_delay_ms'], (items) => {
+    singleHotkeyModeCache = (items && items.single_hotkey_mode) === '1';
+    const raw = items && items.single_hotkey_delay_ms;
+    const v = Number(raw);
+    if (Number.isFinite(v)) {
+      singleHotkeyDelayMs = Math.min(800, Math.max(200, Math.round(v)));
+    }
+  });
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local') {
+      if (changes.single_hotkey_mode) {
+        singleHotkeyModeCache = (changes.single_hotkey_mode.newValue === '1');
+      }
+      if (changes.single_hotkey_delay_ms) {
+        const v = Number(changes.single_hotkey_delay_ms.newValue);
+        if (Number.isFinite(v)) {
+          singleHotkeyDelayMs = Math.min(800, Math.max(200, Math.round(v)));
+        }
+      }
+    }
+  });
+} catch (_) {}
+
+let singleHotkeyTimer = null;
 chrome.commands.onCommand.addListener(function(command) {
   console.log(`收到命令: ${command}`);
-  if (command === "toggle-search") {
+  if (command === 'toggle-search') {
+    if (singleHotkeyModeCache) {
+      // 单一快捷键模式：第一次按下不立刻弹窗，设置延迟；
+      // 若延迟内再次按下，则转为“添加当前网站”，并取消弹窗。
+      if (singleHotkeyTimer) {
+        try { clearTimeout(singleHotkeyTimer); } catch (_) {}
+        singleHotkeyTimer = null;
+        addCurrentSite();
+      } else {
+        singleHotkeyTimer = setTimeout(() => {
+          singleHotkeyTimer = null;
+          injectIframe();
+        }, singleHotkeyDelayMs);
+      }
+      return;
+    }
+    // 非单一模式：立即切换弹窗
     injectIframe();
-  } else if (command === "add-current-site") {
+  } else if (command === 'add-current-site') {
     addCurrentSite();
   }
 });
@@ -20,7 +99,7 @@ chrome.commands.onCommand.addListener(function(command) {
 function addCurrentSite() {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     if (!tabs || !tabs[0]) return;
-    chrome.tabs.sendMessage(tabs[0].id, { action: "addCurrentSite" });
+    ensureContentAndSend(tabs[0], { action: 'addCurrentSite' });
   });
 }
 

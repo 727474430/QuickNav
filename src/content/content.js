@@ -120,8 +120,12 @@ function toggleIframe() {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.action === "toggleIframe") {
     toggleIframe();
+    try { sendResponse({ ok: true }); } catch (_) {}
+    return; // 同步返回
   } else if (request.action === "addCurrentSite") {
     ensureIframeLoadedThen('addCurrentSite');
+    try { sendResponse({ ok: true }); } catch (_) {}
+    return; // 同步返回
   }
 });
 
