@@ -29,6 +29,7 @@ build/
 # 临时文件
 *.tmp
 .cache/
+.trash/
 
 # 环境配置
 .env
