@@ -116,6 +116,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function displayResults(query) {
     resetPagination(); // 重置分页状态
 
+    // 统一修剪用户输入的前后空格
+    query = (query || '').trim();
+
     if (searchType.value === 'system') {
       filteredResults = SystemsManager.searchSystems(query);
       renderResults();
@@ -255,13 +258,17 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function openResultByNumber(number) {
+    // 单条结果时，无论按哪个数字键都打开第一条
+    if (filteredResults.length === 1) {
+      number = 1;
+    }
     const resultIndex = number - 1; // 数字键1对应索引0
     const currentPageResults = Math.min(itemsPerPage, filteredResults.length - currentPage * itemsPerPage);
 
     if (resultIndex >= 0 && resultIndex < currentPageResults) {
       const actualIndex = currentPage * itemsPerPage + resultIndex;
       const result = filteredResults[actualIndex];
-      const currentQuery = searchInput.value;
+      const currentQuery = searchInput.value.trim();
 
       // 记录搜索统计
       SearchStats.recordSelection(currentQuery, searchType.value);
@@ -290,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const actualIndex = currentPage * itemsPerPage + selectedIndex;
     if (selectedIndex >= 0 && actualIndex < filteredResults.length) {
       const result = filteredResults[actualIndex];
-      const currentQuery = searchInput.value;
+      const currentQuery = searchInput.value.trim();
       
       // 记录搜索统计
       SearchStats.recordSelection(currentQuery, searchType.value);
@@ -341,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 修改搜索输入事件监听器
   searchInput.addEventListener('input', function() {
-    const query = searchInput.value.toLowerCase();
+    const query = searchInput.value.trim().toLowerCase();
     
     // 获取当前关键词最常用的搜索类型
     const mostUsedType = getMostUsedType(query);
@@ -360,13 +367,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 监听下拉框变化
   searchType.addEventListener('change', function() {
-    const query = searchInput.value.toLowerCase();
+    const query = searchInput.value.trim().toLowerCase();
     displayResults(query);
   });
 
   // 添加 Tab 键切换功能
   searchInput.addEventListener('keydown', function(event) {
     const currentPageResults = Math.min(itemsPerPage, filteredResults.length - currentPage * itemsPerPage);
+
+    // 若仅有一条结果，数字键 1~5（含小键盘）均直接打开第一条
+    if (filteredResults.length === 1) {
+      const isDigit1to5 = /^[1-5]$/.test(event.key);
+      const isNumpad1to5 = /^Numpad[1-5]$/.test(event.code);
+      const isRowDigit1to5 = /^Digit[1-5]$/.test(event.code);
+      if (isDigit1to5 || isNumpad1to5 || isRowDigit1to5) {
+        event.preventDefault();
+        openResultByNumber(1);
+        return;
+      }
+    }
 
     switch (event.key) {
       case 'ArrowDown':
@@ -405,6 +424,14 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         openResultByNumber(parseInt(event.key));
         break;
+      case 'Numpad1':
+      case 'Numpad2':
+      case 'Numpad3':
+      case 'Numpad4':
+      case 'Numpad5':
+        event.preventDefault();
+        openResultByNumber(parseInt(event.key.replace('Numpad','')) || parseInt(event.code.replace('Numpad','')) || 1);
+        break;
     }
   });
 
@@ -432,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function initializePopup() {
     resetPagination();
     filteredResults = [];
-    displayResults(searchInput.value);
+    displayResults(searchInput.value.trim());
     focusSearchInput();
   }
 
@@ -452,7 +479,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const index = parseInt(target.getAttribute('data-index'));
       const actualIndex = currentPage * itemsPerPage + index;
       const result = filteredResults[actualIndex];
-      const currentQuery = searchInput.value;
+      const currentQuery = searchInput.value.trim();
       
       // 记录搜索统计
       SearchStats.recordSelection(currentQuery, searchType.value);
@@ -784,7 +811,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }, 3000);
           
           // 更新显示
-          displayResults(searchInput.value);
+          displayResults(searchInput.value.trim());
         });
       }
       
